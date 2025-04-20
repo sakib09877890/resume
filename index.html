@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crazy Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="sakib.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik+Mono+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+
+<body>
+    <!-- Authentication Screens -->
+    <div id="auth-container">
+        <!-- Sign Up Screen -->
+        <div id="signup-screen" class="auth-screen">
+            <h1 class="title animate__animated animate__bounceIn">🔐 SIGN UP</h1>
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <input type="text" id="signup-username" placeholder="Username" required>
+                    <div class="validation-message" id="username-validation"></div>
+                </div>
+                <div class="form-group">
+                    <input type="date" id="signup-dob" placeholder="Date of Birth" required>
+                    <div class="validation-message" id="dob-validation"></div>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="signup-phone" placeholder="Phone Number" required>
+                    <div class="validation-message" id="phone-validation"></div>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signup-password" placeholder="Password" required>
+                    <div class="password-strength" id="password-strength">
+                        <div class="strength-meter"></div>
+                        <div class="strength-text"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required>
+                    <div class="validation-message" id="confirm-password-validation"></div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="game-id" placeholder="Game ID" readonly>
+                    <span class="glowing-text">✨ Auto-Generated ✨</span>
+                </div>
+                <button type="submit" id="signup-btn" class="crazy-btn">SIGN UP 🎉</button>
+            </form>
+            <p class="auth-switch">Already have an account? <span id="go-to-login">Sign In</span></p>
+        </div>
+
+        <!-- Sign In Screen -->
+        <div id="login-screen" class="auth-screen hidden">
+            <h1 class="title animate__animated animate__bounceIn">🔑 SIGN IN</h1>
+            <form id="login-form" class="auth-form">
+                <div class="form-group floating-label">
+                    <input type="tel" id="login-phone" placeholder="Phone Number" required>
+                    <label>Phone Number</label>
+                </div>
+                <div class="form-group floating-label">
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <label>Password</label>
+                </div>
+                <div class="form-group">
+                    <div class="validation-message" id="login-error"></div>
+                </div>
+                <button type="submit" id="login-btn" class="crazy-btn">SIGN IN 🚀</button>
+            </form>
+            <p class="forgot-password"><span id="forgot-password-link" class="sparkle">Forgot Password?</span></p>
+            <p class="auth-switch">Don't have an account? <span id="go-to-signup">Sign Up</span></p>
+        </div>
+
+        <!-- Forgot Password Screen -->
+        <div id="forgot-password-screen" class="auth-screen hidden">
+            <h1 class="title animate__animated animate__bounceIn">🔄 RESET PASSWORD</h1>
+            <form id="forgot-password-form" class="auth-form">
+                <div class="form-group">
+                    <input type="tel" id="reset-phone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="reset-game-id" placeholder="Game ID" required>
+                </div>
+                <div class="form-group">
+                    <input type="date" id="reset-dob" placeholder="Date of Birth" required>
+                </div>
+                <div class="form-group">
+                    <div class="validation-message" id="reset-error"></div>
+                </div>
+                <button type="submit" id="verify-btn" class="crazy-btn">VERIFY 🔍</button>
+            </form>
+            <p class="auth-switch">Remember your password? <span id="go-back-to-login">Sign In</span></p>
+        </div>
+
+        <!-- Reset Password Screen -->
+        <div id="reset-password-screen" class="auth-screen hidden">
+            <h1 class="title animate__animated animate__bounceIn">🌈 NEW PASSWORD</h1>
+            <form id="reset-password-form" class="auth-form">
+                <div class="form-group">
+                    <input type="password" id="new-password" placeholder="New Password" required>
+                    <div class="password-strength" id="new-password-strength">
+                        <div class="strength-meter"></div>
+                        <div class="strength-text"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confirm-new-password" placeholder="Confirm New Password" required>
+                    <div class="validation-message" id="new-password-validation"></div>
+                </div>
+                <div class="progress-container">
+                    <div class="rainbow-progress" id="reset-progress"></div>
+                </div>
+                <button type="submit" id="reset-btn" class="crazy-btn">RESET PASSWORD 🎆</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div id="game-container" class="hidden">
+        <!-- Header -->
+        <div class="game-header">
+            <div class="header-left">
+                <button id="logout-btn" class="header-btn fire-effect">🔥 Logout</button>
+            </div>
+            <div class="header-right" id="user-buttons">
+                <button id="add-friend-btn" class="header-btn bounce">👫 Add Friend</button>
+                <button id="profile-btn" class="header-btn spin">👤 Profile</button>
+                <button id="support-btn" class="header-btn pulse">❓ Support</button>
+                <button id="theme-btn" class="header-btn color-shift">🌈 Theme</button>
+                <button id="mail-btn" class="header-btn shake">📬 Mail</button>
+            </div>
+            <div class="header-right hidden" id="admin-button">
+                <button id="admin-btn" class="header-btn">🛠️ Admin Panel</button>
+            </div>
+        </div>
+
+        <!-- Game Mode Selection -->
+        <div class="game-mode-container" id="game-mode-container">
+            <h2 class="mode-title">SELECT GAME MODE</h2>
+            <div class="mode-buttons">
+                <button id="pvp-btn" class="mode-btn lightning">⚡ PVP (Player vs Player)</button>
+                <button id="pvc-btn" class="mode-btn">🤖 PVC (Player vs Computer)</button>
+            </div>
+            <div id="difficulty-container" class="hidden">
+                <h3>Select Difficulty:</h3>
+                <div class="difficulty-buttons">
+                    <button id="easy-btn" class="difficulty-btn laughing">😊 Easy</button>
+                    <button id="medium-btn" class="difficulty-btn thinking">🤔 Medium</button>
+                    <button id="hard-btn" class="difficulty-btn devil">😈 Hard</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Board -->
+        <div id="game-board-container" class="hidden">
+            <div class="game-status">
+                <div id="turn-indicator" class="flipping">X's Turn</div>
+                <div id="game-result" class="hidden"></div>
+            </div>
+            <div id="game-board">
+                <!-- Cells will be generated by JavaScript -->
+            </div>
+            <div class="game-controls">
+                <button id="reset-game-btn" class="control-btn explode">💥 Reset Game</button>
+                <button id="game-menu-btn" class="control-btn">🍔 Menu</button>
+            </div>
+        </div>
+
+        <!-- Admin Panel Modal -->
+        <div id="admin-modal" class="modal hidden">
+            <div class="modal-content admin-content">
+                <span class="close-modal">&times;</span>
+                <h2>🛠️ ADMIN PANEL</h2>
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="users">Users</button>
+                    <button class="admin-tab" data-tab="themes">Themes</button>
+                    <button class="admin-tab" data-tab="support">Support</button>
+                    <button class="admin-tab" data-tab="settings">Game Settings</button>
+                </div>
+
+                <div id="users-tab" class="admin-tab-content active">
+                    <div class="admin-search">
+                        <input type="text" id="user-search" placeholder="Search users...">
+                        <button id="search-users">🔍 Search</button>
+                    </div>
+                    <div class="user-list-container">
+                        <table class="user-list">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Game ID</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-list-body">
+                                <!-- Users will be populated from database -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="themes-tab" class="admin-tab-content">
+                    <h3>Send Themes to Users</h3>
+                    <div class="admin-theme-selector">
+                        <select id="admin-theme-select">
+                            <option value="default">Default</option>
+                            <option value="dark">Dark</option>
+                            <option value="ocean">Ocean</option>
+                            <option value="nature">Nature</option>
+                            <option value="retro">Retro</option>
+                            <option value="neon">Neon</option>
+                        </select>
+                        <select id="admin-emoji-select">
+                            <option value="default">Default (X/O)</option>
+                            <option value="hearts">Hearts (❤️/💙)</option>
+                            <option value="faces">Faces (😀/😈)</option>
+                            <option value="animals">Animals (🐶/🐱)</option>
+                            <option value="sports">Sports (⚽/🏀)</option>
+                            <option value="fruits">Fruits (🍎/🍌)</option>
+                        </select>
+                        <button id="send-theme-btn">Send to Selected Users</button>
+                    </div>
+                </div>
+
+                <div id="support-tab" class="admin-tab-content">
+                    <h3>Support Requests</h3>
+                    <div class="support-list">
+                        <!-- Support requests will be populated from database -->
+                    </div>
+                </div>
+
+                <div id="settings-tab" class="admin-tab-content">
+                    <h3>Game Settings</h3>
+                    <div class="game-settings">
+                        <div class="setting-item">
+                            <label>Default Difficulty:</label>
+                            <select id="default-difficulty">
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Starting Player:</label>
+                            <select id="starting-player">
+                                <option value="player">Player (X)</option>
+                                <option value="computer">Computer (O)</option>
+                                <option value="alternate">Alternate</option>
+                            </select>
+                        </div>
+                        <button id="save-settings-btn">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Sound Elements -->
+    <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3"></audio>
+    <audio id="place-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
+    <audio id="win-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
+    <audio id="draw-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-sad-game-over-trombone-471.mp3"></audio>
+    <audio id="error-sound"
+        src="https://assets.mixkit.co/sfx/preview/mixkit-software-interface-remove-2578.mp3"></audio>
+    <audio id="success-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+
+    <script src="sakib.js"></script>
+</body>
